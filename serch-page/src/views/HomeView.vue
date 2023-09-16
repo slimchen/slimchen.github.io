@@ -201,7 +201,7 @@
       </el-input>
       <el-button type="success">Apply Filter</el-button>
       <el-button type="success">Clear Filter</el-button>
-      <el-button type="danger">Subscibe to Generate Summary Report</el-button>
+      <el-button type="danger">Subscibe to Generate Summary</el-button>
     </div>
   </div>
 </template>
@@ -211,6 +211,7 @@
 export default {
   name: 'HomeView',
 }
+
 </script>
 
 <style>
