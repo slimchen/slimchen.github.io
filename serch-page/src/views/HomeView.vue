@@ -1,5 +1,8 @@
 <template>
   <div class="home">
+    <h1 class="title">
+      Search Used Car Prices
+    </h1>
     <div class="dropdowns-container">
       <div class="dropdowns-container1">
         <!-- make -->
@@ -193,6 +196,13 @@
         </el-dropdown>
       </div>
     </div>
+    <div class="serch-bar">
+      <el-input type="textarea" autosize placeholder="Please input" v-model="textarea1" style="width: 400px; margin-right: 10px;">
+      </el-input>
+      <el-button type="success">Apply Filter</el-button>
+      <el-button type="success">Clear Filter</el-button>
+      <el-button type="danger">Subscibe to Generate Summary Report</el-button>
+    </div>
   </div>
 </template>
 
@@ -204,16 +214,23 @@ export default {
 </script>
 
 <style>
-/* Style for the container to display dropdowns horizontally */
+/* Title */
+.title {
+  margin-right: 20px;
+}
+
+/* Style for the container to display dropdowns */
 .dropdowns-container {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .dropdowns-container1 {
   display: flex;
   gap: 10px;
   margin-bottom: 10px;
+
 }
 
 .dropdowns-container2 {
@@ -226,4 +243,16 @@ export default {
   display: flex;
   gap: 10px;
   margin-bottom: 10px;
-}</style>
+}
+
+.dropdown-item {
+  width: 200px;
+}
+/* Style for the container to search bar widgets */
+.serch-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 550px;
+}
+</style>
