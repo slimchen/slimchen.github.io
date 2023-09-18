@@ -57,7 +57,7 @@
             <el-col :span="24">
                 <div class="grid-content bg-white col-button-group">
                     <el-input v-model="filterCriteria" placeholder="Enter filter criteria" class="input"></el-input>
-                    <el-button type="primary" @click="applyFilter">Apply Filter</el-button>
+                    <el-button type="primary" @click="applyFilter" style="margin-right: 10px;">Apply Filter</el-button>
                     <br>
                     <el-button type="primary" @click="clearFilter">Clear Filter</el-button>
                 </div>
@@ -213,6 +213,7 @@
                 min-height: 150px;
                 min-width: 200px;
                 overflow-y: auto;
+                overflow-x: auto;
             }
 
             .el-dialog p {
