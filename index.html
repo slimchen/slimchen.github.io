@@ -335,11 +335,11 @@
                 applyFilter: function () {
                     this.filteredCars = this.carData.filter(car => {
                         // for dropdowns 
-                        const makeMatch = this.cid === 0 || car.name.toLowerCase().includes(this.cars.find(c => c.id === this.cid).name.toLowerCase());
-                        const familyMatch = this.fid === 0 || car.family.toLowerCase().includes(this.families.find(f => f.id === this.fid).name.toLowerCase());
-                        const bodyTypeMatch = this.bid === 0 || car.bodyType.toLowerCase().includes(this.bodyTypes.find(b => b.id === this.bid).name.toLowerCase());
-                        const fuelTypeMatch = this.fuid === 0 || car.fuelType.toLowerCase().includes(this.fuelTypes.find(f => f.id === this.fuid).name.toLowerCase());
-                        const stateMatch = this.sid === 0 || car.state.toLowerCase().includes(this.states.find(s => s.id === this.sid).name.toLowerCase());
+                        const makeMatch = this.cid === 0 || (car.name?.toLowerCase() || '').includes(this.cars.find(c => c.id === this.cid).name.toLowerCase());
+                        const familyMatch = this.fid === 0 || (car.family?.toLowerCase() || '').includes(this.families.find(f => f.id === this.fid).name.toLowerCase());
+                        const bodyTypeMatch = this.bid === 0 || (car.bodyType?.toLowerCase() || '').includes(this.bodyTypes.find(b => b.id === this.bid).name.toLowerCase());
+                        const fuelTypeMatch = this.fuid === 0 || (car.fuelType?.toLowerCase() || '').includes(this.fuelTypes.find(fu => fu.id === this.fuid).name.toLowerCase());
+                        const stateMatch = this.sid === 0 || (car.state?.toLowerCase() || '').includes(this.states.find(s => s.id === this.sid).name.toLowerCase());
                         // for input column
                         const inputMatch = this.filterCriteria === '' ||
                             (car.name && car.name.toLowerCase().includes(this.filterCriteria.toLowerCase())) ||
