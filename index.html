@@ -171,9 +171,9 @@
             }
 
             .el-dialog {
-            width: 90%;
-            left: 5%;
-        }
+                width: 90%;
+                left: 5%;
+            }
         }
 
         @media screen and (max-width: 480px) {
@@ -186,9 +186,19 @@
             }
 
             .el-dialog {
-            width: 95%;
-            left: 2.5%;
-        }
+                width: 95%;
+                left: 2.5%;
+            }
+
+            .el-dialog__body {
+                max-height: 70vh;
+                /* Adjust the max height as needed */
+                overflow-y: auto;
+            }
+
+            .el-dialog p {
+                font-size: 16px;
+            }
         }
     </style>
 
