@@ -55,7 +55,7 @@
         <!-- for input column and buttons-->
         <el-row class="row-bg" style="flex: 7; width: 75%;">
             <el-col :span="24">
-                <div class="grid-content bg-white" style="display: flex; flex-direction: row;">
+                <div class="grid-content bg-white col-button-group">
                     <el-input v-model="filterCriteria" placeholder="Enter filter criteria"
                         style="width: 30vw; margin-right: 10px;"></el-input>
                     <el-button type="primary" @click="applyFilter">Apply Filter</el-button>
@@ -149,6 +149,11 @@
             min-height: 36px;
         }
 
+        .col-button-group {
+            display: flex;
+            flex-direction: row;
+        }
+
         /* for card info */
         .car-card {
             display: flex;
@@ -209,6 +214,11 @@
                 flex-direction: column;
                 align-items: center;
                 text-align: center;
+            }
+
+            .col-button-group {
+                display: flex;
+                flex-direction: column;
             }
         }
     </style>
