@@ -69,7 +69,7 @@
                     <div v-for="car in filteredCars" :key="car.id" class="car-card"
                         style="flex: 1; display: flex; flex-direction: column;">
                         <div class="card-content" style="flex: 1;">
-                            <p><b>{{car.name}}</b>{{car.family}}{{car.bodyType}}{{car.fuelType}}</p>
+                            <p><b>{{car.name}}</b>{{car.year}}{{car.family}}{{car.bodyType}}{{car.fuelType}}</p>
                         </div>
                         <div id="car-details" style="flex: 1; display: flex;">
                             <el-col :span="2" style="flex: 1; margin-right: 10px;">
@@ -197,13 +197,13 @@
                 ],
                 filterCriteria: '',
                 carData: [
-                    { id: 0, name: 'Volkswagen', family: ' Bora', year: '2012', color: 'red', description: '1J MY12 Sedan 4dr Auto 4sp 2.0i​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '86,400km', state: 'VIC' },
-                    { id: 1, name: 'Volkswagen', family: ' Bora', year: '2013', color: 'blue', description: '1J MY13 Sedan 4dr Auto 4sp 2.0i​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '70,423km', state: 'NSW' },
-                    { id: 2, name: 'Volkswagen', family: ' Caddy', year: '2014', color: 'white', description: '2KN MY14 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '55,000km', state: 'VIC' },
-                    { id: 3, name: 'Volkswagen', family: ' Caddy', year: '2015', color: 'black', description: '2KN MY15 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', bodyType: ' Hatch', fuelType: ' Disel', dealership: 'Dealership', odometer: '62,630km', state: 'NSW' },
-                    { id: 4, name: 'Volvo', family: ' S60', year: '2016', color: 'black', description: '2KN MY15 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '12,450km', state: 'VIC' },
-                    { id: 5, name: 'Volvo', family: ' XC60', year: '2017', color: 'grey', description: '2KN MY15 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '38,650km', state: 'VIC' },
-                    { id: 6, name: 'Volvo', family: ' XC60', year: '2018', color: 'green', description: '2KN MY15 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', odyType: ' Hatch', fuelType: ' Disel', dealership: 'Dealership', odometer: '23,440km', state: 'NSW' }
+                    { id: 0, name: 'Volkswagen', family: ' Bora', year: ' 2012', color: 'red', description: '1J MY12 Sedan 4dr Auto 4sp 2.0i​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '86,400km', state: 'VIC' },
+                    { id: 1, name: 'Volkswagen', family: ' Bora', year: ' 2013', color: 'blue', description: '1J MY13 Sedan 4dr Auto 4sp 2.0i​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '70,423km', state: 'NSW' },
+                    { id: 2, name: 'Volkswagen', family: ' Caddy', year: ' 2014', color: 'white', description: '2KN MY14 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '55,000km', state: 'VIC' },
+                    { id: 3, name: 'Volkswagen', family: ' Caddy', year: ' 2015', color: 'black', description: '2KN MY15 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', bodyType: ' Hatch', fuelType: ' Disel', dealership: 'Dealership', odometer: '62,630km', state: 'NSW' },
+                    { id: 4, name: 'Volvo', family: ' S60', year: ' 2016', color: 'black', description: '2KN MY15 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '12,450km', state: 'VIC' },
+                    { id: 5, name: 'Volvo', family: ' XC60', year: ' 2017', color: 'grey', description: '2KN MY15 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '38,650km', state: 'VIC' },
+                    { id: 6, name: 'Volvo', family: ' XC60', year: ' 2018', color: 'green', description: '2KN MY15 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', odyType: ' Hatch', fuelType: ' Disel', dealership: 'Dealership', odometer: '23,440km', state: 'NSW' }
                 ]
             },
             created: function () {
@@ -251,23 +251,25 @@
                 // button action
                 applyFilter: function () {
                     this.filteredCars = this.carData.filter(car => {
-                        // for dropdowns
-                        const nameMatch = this.filterCriteria === '' || car.name.toLowerCase().includes(this.filterCriteria.toLowerCase());
+                        // for dropdowns 
+                        const makeMatch = this.cid === 0 || car.name.toLowerCase().includes(this.cars.find(c => c.id === this.cid).name.toLowerCase());
                         const familyMatch = this.fid === 0 || car.family.toLowerCase().includes(this.families.find(f => f.id === this.fid).name.toLowerCase());
                         const bodyTypeMatch = this.bid === 0 || car.bodyType.toLowerCase().includes(this.bodyTypes.find(b => b.id === this.bid).name.toLowerCase());
                         const fuelTypeMatch = this.fuid === 0 || car.fuelType.toLowerCase().includes(this.fuelTypes.find(f => f.id === this.fuid).name.toLowerCase());
                         const stateMatch = this.sid === 0 || car.state.toLowerCase().includes(this.states.find(s => s.id === this.sid).name.toLowerCase());
                         // for input column
                         const inputMatch = this.filterCriteria === '' ||
-                            car.name.toLowerCase().includes(this.filterCriteria.toLowerCase()) ||
-                            car.family.toLowerCase().includes(this.filterCriteria.toLowerCase()) ||
-                            car.bodyType.toLowerCase().includes(this.filterCriteria.toLowerCase()) ||
-                            car.fuelType.toLowerCase().includes(this.filterCriteria.toLowerCase()) ||
-                            car.state.toLowerCase().includes(this.filterCriteria.toLowerCase()) ||
-                            car.dealership.toLowerCase().includes(this.filterCriteria.toLowerCase()) ||
-                            car.odometer.toLowerCase().includes(this.filterCriteria.toLowerCase());
+                            (car.name && car.name.toLowerCase().includes(this.filterCriteria.toLowerCase())) ||
+                            (car.family && car.family.toLowerCase().includes(this.filterCriteria.toLowerCase())) ||
+                            (car.bodyType && car.bodyType.toLowerCase().includes(this.filterCriteria.toLowerCase())) ||
+                            (car.fuelType && car.fuelType.toLowerCase().includes(this.filterCriteria.toLowerCase())) ||
+                            (car.state && car.state.toLowerCase().includes(this.filterCriteria.toLowerCase())) ||
+                            (car.dealership && car.dealership.toLowerCase().includes(this.filterCriteria.toLowerCase())) ||
+                            (car.odometer && car.odometer.toLowerCase().includes(this.filterCriteria.toLowerCase())) ||
+                            (car.color && car.color.toLowerCase().includes(this.filterCriteria.toLowerCase())) ||
+                            (car.description && car.description.toLowerCase().includes(this.filterCriteria.toLowerCase()));
 
-                        return nameMatch && familyMatch && bodyTypeMatch && fuelTypeMatch && stateMatch;
+                        return inputMatch && makeMatch && familyMatch && bodyTypeMatch && fuelTypeMatch && stateMatch;
                     });
                 },
                 // button action
