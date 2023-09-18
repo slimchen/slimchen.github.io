@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui@2.15.6/lib/theme-chalk/index.css">
+</head>
+
+<body>
+    <div id="app" style="display: flex; flex-direction: column; align-items: center;">
+        <!-- header -->
+        <header style="flex: 1; width: 100%;">
+            <el-row class="row-bg"
+                style="width:100%; height:100px; display: flex; align-items: center; justify-content: center;">
+                <el-col :span="24">
+                    <div class="grid-content bg-purple-dark">
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                            <img src="carewarehouse.png" alt="Car Image" style="width: 250px; height: 250px;">
+                        </div>
+                    </div>
+                </el-col>
+            </el-row>
+        </header>
+        <!-- tittle -->
+        <el-row style="flex: 7; width: 75%; margin-top: 40px;">
+            <el-col :span="24">
+                <div class="grid-content">
+                    <h1>Search Used Cars</h1>
+                </div>
+            </el-col>
+        </el-row>
+        <!-- dropdown menus -->
+        <el-row class="row-bg" style="flex: 7; width: 75%;">
+            <el-col :span="24">
+                <div class="grid-content bg-white">
+                    <select name="carId" v-model="cid" @change="choose"
+                        style="width:100px; height:35px; margin-right: 10px;">
+                        <option v-for="car in cars" :value="car.id">{{car.name}}</option>
+                    </select>
+                    <select name="family" v-model="fid" @change="select"
+                        style="width:100px; height:35px; margin-right: 10px;">
+                        <option v-for="family in families" :value="family.id">{{family.name}}</option>
+                    </select>
+                    <select name="bodyType" v-model="bid" style="width:100px; height:35px; margin-right: 10px;">
+                        <option v-for="bodyType in bodyTypes" :value="bodyType.id">{{bodyType.name}}</option>
+                    </select>
+                    <select name="fuelType" v-model="fuid" style="width:100px; height:35px; margin-right: 10px;">
+                        <option v-for="fuelType in fuelTypes" :value="fuelType.id">{{fuelType.name}}</option>
+                    </select>
+                    <select name="state" v-model="sid" style="width:100px; height:35px; margin-right: 10px;">
+                        <option v-for="state in states" :value="state.id">{{state.name}}</option>
+                    </select>
+                </div>
+        </el-row>
+        <!-- for input column and buttons-->
+        <el-row class="row-bg" style="flex: 7; width: 75%;">
+            <el-col :span="24">
+                <div class="grid-content bg-white" style="display: flex; flex-direction: row;">
+                    <el-input v-model="filterCriteria" placeholder="Enter filter criteria"
+                        style="width: 30vw; margin-right: 10px;"></el-input>
+                    <el-button type="primary" @click="applyFilter">Apply Filter</el-button>
+                    <el-button type="primary" @click="clearFilter">Clear Filter</el-button>
+                </div>
+            </el-col>
+        </el-row>
+        <!-- for filtering cars info-->
+        <el-row class="row-bg" style="flex: 7; width: 75%;">
+            <el-col :span="24" style="display: flex; flex-direction: column;">
+                <div class="grid-content bg-white" style="flex: 1; display: flex; flex-direction: column;">
+                    <div v-for="car in filteredCars" :key="car.id" class="car-card"
+                        style="flex: 1; display: flex; flex-direction: column;">
+                        <div class="card-content" style="flex: 1;">
+                            <p><b>{{car.name}}</b>{{car.family}}{{car.bodyType}}{{car.fuelType}}</p>
+                        </div>
+                        <div id="car-details" style="flex: 1; display: flex;">
+                            <el-col :span="2" style="flex: 1; margin-right: 10px;">
+                                <div class="grid-content bg-purple-dark" style="flex: 1;">
+                                    {{car.dealership}}
+                                </div>
+                            </el-col>
+                            <el-col :span="2" style="flex: 1; margin-right: 10px;">
+                                <div class="grid-content bg-purple-dark" style="flex: 1;">
+                                    {{car.odometer}}
+                                </div>
+                            </el-col>
+                            <el-col :span="2" style="flex: 1; margin-right: 10px;">
+                                <div class="grid-content bg-purple-dark" style="flex: 1;">
+                                    Sold in {{car.state}}
+                                </div>
+                            </el-col>
+                            <!-- See More Button -->
+                            <el-button type="danger" @click="showCarDetails(car)" style="flex: 1; margin-left: 60px;">
+                                See More
+                            </el-button>
+                        </div>
+                    </div>
+                </div>
+            </el-col>
+        </el-row>
+        <!-- Modal to display car details -->
+        <el-dialog title="Car Details" :visible.sync="isModalVisible" width="50%"
+        :style="{ 'top': '50%', 'left': '50%', 'transform': 'translate(-50%, -50%)' }">
+            <div v-if="selectedCar">
+                <p><b>Make:</b> {{ selectedCar.name }}</p>
+                <p><b>Modal:</b> {{ selectedCar.family }}</p>
+                <p><b>Color:</b> {{ selectedCar.color }}</p>
+                <p><b>Description:</b> {{ selectedCar.description }}</p>
+                <p><b>Odometer:</b> {{ selectedCar.odometer }}</p>
+            </div>
+        </el-dialog>
+    </div>
+
+    <style>
+        .el-row {
+            margin-bottom: 20px;
+        }
+
+        .row-bg {
+            padding: 10px 0;
+            background-color: #f9fafc;
+        }
+
+        .el-col {
+            border-radius: 4px;
+        }
+
+        .bg-purple-dark {
+            background: #99a9bf;
+        }
+
+        .bg-purple {
+            background: #d3dce6;
+        }
+
+        .bg-purple-light {
+            background: #e5e9f2;
+        }
+
+        .grid-content {
+            border-radius: 4px;
+            min-height: 36px;
+        }
+
+        /* for card info */
+        .car-card {
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .card-content {
+            margin-bottom: 10px;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui@2.15.6/lib/index.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                cid: 0,
+                fid: 0,
+                bid: 0,
+                fuid: 0,
+                sid: 0,
+                filteredCars: [],
+                isModalVisible: false,
+                selectedCar: null,
+                cars: [
+                    { id: 0, name: 'Make' },
+                    { id: 1, name: 'Volkswagen' },
+                    { id: 2, name: 'Volvo' },
+                ],
+                families: [
+                    { id: 0, name: 'Family' },
+                ],
+                bodyTypes: [
+                    { id: 0, name: 'Body Type' },
+                ],
+                fuelTypes: [
+                    { id: 0, name: 'Fuel Type' },
+                ],
+                states: [
+                    { id: 0, name: 'State' },
+                ],
+                filterCriteria: '',
+                carData: [
+                    { id: 0, name: 'Volkswagen', family: ' Bora', year:'2012', color:'red', description:'1J MY12 Sedan 4dr Auto 4sp 2.0i​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '86,400km', state: 'VIC' },
+                    { id: 1, name: 'Volkswagen', family: ' Bora', year:'2013', color:'blue', description:'1J MY13 Sedan 4dr Auto 4sp 2.0i​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '70,423km', state: 'NSW' },
+                    { id: 2, name: 'Volkswagen', family: ' Caddy', year:'2014', color:'white', description:'2KN MY14 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '55,000km', state: 'VIC' },
+                    { id: 3, name: 'Volkswagen', family: ' Caddy', year:'2015', color:'black', description:'2KN MY15 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', bodyType: ' Hatch', fuelType: ' Disel', dealership: 'Dealership', odometer: '62,630km', state: 'NSW' },
+                    { id: 4, name: 'Volvo', family: ' S60', year:'2016',  color:'black', description:'2KN MY15 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '12,450km', state: 'VIC' },
+                    { id: 5, name: 'Volvo', family: ' XC60', year:'2017', color:'grey', description:'2KN MY15 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '38,650km', state: 'VIC' },
+                    { id: 6, name: 'Volvo', family: ' XC60', year:'2018', color:'green', description:'2KN MY15 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', odyType: ' Hatch', fuelType: ' Disel', dealership: 'Dealership', odometer: '23,440km', state: 'NSW' }
+                ]
+            },
+            created: function () {
+                this.applyFilter();
+            },
+            methods: {
+                // secondary dropdown menu
+                choose: function () {
+                    this.families = [];
+                    this.families.push({ id: 0, name: 'Family' });
+                    if (this.cid == 1) {
+                        this.families.push({ id: 1, name: 'Bora' });
+                        this.families.push({ id: 2, name: 'Caddy' });
+                    } else if (this.cid == 2) {
+                        this.families.push({ id: 1, name: 'S60' });
+                        this.families.push({ id: 2, name: 'XC60' });
+                    }
+                    this.fid = 0;
+                },
+                // third dropdown meanu
+                select: function () {
+                    this.bodyTypes = [];
+                    this.bodyTypes.push({ id: 0, name: 'BodyType' });
+                    this.fuelTypes = [];
+                    this.fuelTypes.push({ id: 0, name: 'FuelType' });
+                    this.states = [];
+                    this.states.push({ id: 0, name: 'State' });
+                    if (this.fid == 1) {
+                        this.bodyTypes.push({ id: 1, name: 'Sedan' });
+                        this.fuelTypes.push({ id: 1, name: 'Petrol' });
+                        this.states.push({ id: 1, name: 'NSW' });
+                        this.states.push({ id: 2, name: 'VIC' });
+                    } else if (this.fid == 2) {
+                        this.bodyTypes.push({ id: 1, name: 'Sedan' });
+                        this.bodyTypes.push({ id: 1, name: 'Hatch' });
+                        this.fuelTypes.push({ id: 1, name: 'Petrol' });
+                        this.fuelTypes.push({ id: 1, name: 'Disel' });
+                        this.states.push({ id: 1, name: 'NSW' });
+                        this.states.push({ id: 2, name: 'VIC' });
+                    }
+                    this.bid = 0;
+                    this.fuid = 0;
+                    this.sid = 0;
+                },
+                // button action
+                applyFilter: function () {
+                    this.filteredCars = this.carData.filter(car => {
+                        // for dropdowns
+                        const nameMatch = this.filterCriteria === '' || car.name.toLowerCase().includes(this.filterCriteria.toLowerCase());
+                        const familyMatch = this.fid === 0 || car.family.toLowerCase().includes(this.families.find(f => f.id === this.fid).name.toLowerCase());
+                        const bodyTypeMatch = this.bid === 0 || car.bodyType.toLowerCase().includes(this.bodyTypes.find(b => b.id === this.bid).name.toLowerCase());
+                        const fuelTypeMatch = this.fuid === 0 || car.fuelType.toLowerCase().includes(this.fuelTypes.find(f => f.id === this.fuid).name.toLowerCase());
+                        const stateMatch = this.sid === 0 || car.state.toLowerCase().includes(this.states.find(s => s.id === this.sid).name.toLowerCase());
+                        // for input column
+                        const inputMatch = this.filterCriteria === '' ||
+                            car.name.toLowerCase().includes(this.filterCriteria.toLowerCase()) ||
+                            car.family.toLowerCase().includes(this.filterCriteria.toLowerCase()) ||
+                            car.bodyType.toLowerCase().includes(this.filterCriteria.toLowerCase()) ||
+                            car.fuelType.toLowerCase().includes(this.filterCriteria.toLowerCase()) ||
+                            car.state.toLowerCase().includes(this.filterCriteria.toLowerCase()) ||
+                            car.dealership.toLowerCase().includes(this.filterCriteria.toLowerCase()) ||
+                            car.odometer.toLowerCase().includes(this.filterCriteria.toLowerCase());
+
+                        return nameMatch && familyMatch && bodyTypeMatch && fuelTypeMatch && stateMatch;
+                    });
+                },
+                // button action
+                clearFilter: function () {
+                    // for dropdowns
+                    this.cid = 0;
+                    this.fid = 0;
+                    this.bid = 0;
+                    this.fuid = 0;
+                    this.sid = 0;
+
+                    // for input column
+                    this.filterCriteria = '';
+
+                    // recover the default situation
+                    this.applyFilter();
+                },
+                // for see more modal
+                showCarDetails(car) {
+                    this.selectedCar = car;
+                    this.isModalVisible = true;
+                },
+                closeModal() {
+                    this.isModalVisible = false;
+                },
+            }
+        });
+    </script>
+</body>
+
+</html>
