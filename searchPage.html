@@ -12,7 +12,7 @@
             <el-row class="row-bg"
                 style="width:100%; height:100px; display: flex; align-items: center; justify-content: center;">
                 <el-col :span="24">
-                    <div class="grid-content bg-purple-dark">
+                    <div class="grid-content bg-purple">
                         <div style="display: flex; justify-content: center; align-items: center;">
                             <img src="carewarehouse.png" alt="Car Image" style="width: 250px; height: 250px;">
                         </div>
@@ -73,12 +73,12 @@
                         </div>
                         <div id="car-details" style="flex: 1; display: flex;">
                             <el-col :span="2" style="flex: 1; margin-right: 10px;">
-                                <div class="grid-content bg-purple-dark" style="flex: 1;">
+                                <div class="grid-content bg-purple-light" style="flex: 1;">
                                     {{car.dealership}}
                                 </div>
                             </el-col>
                             <el-col :span="2" style="flex: 1; margin-right: 10px;">
-                                <div class="grid-content bg-purple-dark" style="flex: 1;">
+                                <div class="grid-content bg-purple" style="flex: 1;">
                                     {{car.odometer}}
                                 </div>
                             </el-col>
@@ -98,7 +98,7 @@
         </el-row>
         <!-- Modal to display car details -->
         <el-dialog title="Car Details" :visible.sync="isModalVisible" width="50%"
-        :style="{ 'top': '50%', 'left': '50%', 'transform': 'translate(-50%, -50%)' }">
+            :style="{ 'top': '50%', 'left': '50%', 'transform': 'translate(-50%, -50%)','overflowY': 'hidden'  }">
             <div v-if="selectedCar">
                 <p><b>Make:</b> {{ selectedCar.name }}</p>
                 <p><b>Modal:</b> {{ selectedCar.family }}</p>
@@ -107,6 +107,14 @@
                 <p><b>Odometer:</b> {{ selectedCar.odometer }}</p>
             </div>
         </el-dialog>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content" style="text-align: center;">
+                <p>&copy; 2023 Slim's Car Warehouse</p>
+                <p>Contact us at slimscarwarehouse@example.com</p>
+            </div>
+        </footer>
     </div>
 
     <style>
@@ -189,13 +197,13 @@
                 ],
                 filterCriteria: '',
                 carData: [
-                    { id: 0, name: 'Volkswagen', family: ' Bora', year:'2012', color:'red', description:'1J MY12 Sedan 4dr Auto 4sp 2.0i​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '86,400km', state: 'VIC' },
-                    { id: 1, name: 'Volkswagen', family: ' Bora', year:'2013', color:'blue', description:'1J MY13 Sedan 4dr Auto 4sp 2.0i​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '70,423km', state: 'NSW' },
-                    { id: 2, name: 'Volkswagen', family: ' Caddy', year:'2014', color:'white', description:'2KN MY14 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '55,000km', state: 'VIC' },
-                    { id: 3, name: 'Volkswagen', family: ' Caddy', year:'2015', color:'black', description:'2KN MY15 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', bodyType: ' Hatch', fuelType: ' Disel', dealership: 'Dealership', odometer: '62,630km', state: 'NSW' },
-                    { id: 4, name: 'Volvo', family: ' S60', year:'2016',  color:'black', description:'2KN MY15 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '12,450km', state: 'VIC' },
-                    { id: 5, name: 'Volvo', family: ' XC60', year:'2017', color:'grey', description:'2KN MY15 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '38,650km', state: 'VIC' },
-                    { id: 6, name: 'Volvo', family: ' XC60', year:'2018', color:'green', description:'2KN MY15 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', odyType: ' Hatch', fuelType: ' Disel', dealership: 'Dealership', odometer: '23,440km', state: 'NSW' }
+                    { id: 0, name: 'Volkswagen', family: ' Bora', year: '2012', color: 'red', description: '1J MY12 Sedan 4dr Auto 4sp 2.0i​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '86,400km', state: 'VIC' },
+                    { id: 1, name: 'Volkswagen', family: ' Bora', year: '2013', color: 'blue', description: '1J MY13 Sedan 4dr Auto 4sp 2.0i​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '70,423km', state: 'NSW' },
+                    { id: 2, name: 'Volkswagen', family: ' Caddy', year: '2014', color: 'white', description: '2KN MY14 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '55,000km', state: 'VIC' },
+                    { id: 3, name: 'Volkswagen', family: ' Caddy', year: '2015', color: 'black', description: '2KN MY15 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', bodyType: ' Hatch', fuelType: ' Disel', dealership: 'Dealership', odometer: '62,630km', state: 'NSW' },
+                    { id: 4, name: 'Volvo', family: ' S60', year: '2016', color: 'black', description: '2KN MY15 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '12,450km', state: 'VIC' },
+                    { id: 5, name: 'Volvo', family: ' XC60', year: '2017', color: 'grey', description: '2KN MY15 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', bodyType: ' Sedan', fuelType: ' Petrol', dealership: 'Dealership', odometer: '38,650km', state: 'VIC' },
+                    { id: 6, name: 'Volvo', family: ' XC60', year: '2018', color: 'green', description: '2KN MY15 TSI220 Van SWB 4dr DSG 7sp 773kg 1.4T​​', odyType: ' Hatch', fuelType: ' Disel', dealership: 'Dealership', odometer: '23,440km', state: 'NSW' }
                 ]
             },
             created: function () {
